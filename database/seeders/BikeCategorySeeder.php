@@ -11,17 +11,17 @@ class BikeCategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'ロードバイク',
-            'クロスバイク',
-            'グラベルバイク',
-            'マウンテンバイク',
-            'シティサイクル',
+            ['name' => 'ロードバイク', 'slug' => 'road-bike'],
+            ['name' => 'クロスバイク', 'slug' => 'cross-bike'],
+            ['name' => 'グラベルバイク', 'slug' => 'gravel-bike'],
+            ['name' => 'マウンテンバイク', 'slug' => 'mountain-bike'],
+            ['name' => 'シティサイクル', 'slug' => 'city-bike'],
         ];
 
         foreach ($categories as $category) {
             BikeCategory::create([
-                'name' => $category,
-                'slug' => Str::slug($category),
+                'name' => $category['name'],
+                'slug' => $category['slug'],
                 'is_active' => true,
             ]);
         }

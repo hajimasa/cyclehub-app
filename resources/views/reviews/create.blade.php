@@ -45,7 +45,7 @@
         }
         
         .nav a:hover {
-            color: #667eea;
+            color: #528B5F;
         }
         
         .container {
@@ -90,7 +90,7 @@
         
         .form-control:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #528B5F;
         }
         
         .form-control textarea {
@@ -161,12 +161,12 @@
         }
         
         .btn-primary {
-            background: #667eea;
+            background: #528B5F;
             color: white;
         }
         
         .btn-primary:hover {
-            background: #5a6fd8;
+            background: #4A6741;
             transform: translateY(-1px);
         }
         

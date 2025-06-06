@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>レビュー一覧 - CycleHub</title>
+    <title>商品一覧 - CycleHub</title>
     <style>
         * {
             margin: 0;
@@ -102,7 +102,7 @@
         
         .filter-form {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr auto;
+            grid-template-columns: 1fr 1fr auto;
             gap: 1rem;
             align-items: end;
         }
@@ -132,13 +132,13 @@
             border-color: #528B5F;
         }
         
-        .reviews-grid {
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
         
-        .review-card {
+        .product-card {
             background: white;
             border-radius: 15px;
             overflow: hidden;
@@ -148,43 +148,27 @@
             color: inherit;
         }
         
-        .review-card:hover {
+        .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
-        .review-image {
+        .product-placeholder {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #f8f9fa;
+            height: 150px;
+            background: linear-gradient(135deg, #528B5F 0%, #6B8E23 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            color: white;
             font-size: 3rem;
         }
         
-        .review-content {
+        .product-content {
             padding: 1.5rem;
         }
         
-        .review-rating {
-            display: flex;
-            gap: 0.2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .star {
-            color: #ffc107;
-            font-size: 1.2rem;
-        }
-        
-        .star.empty {
-            color: #ddd;
-        }
-        
-        .review-title {
+        .product-name {
             font-size: 1.2rem;
             font-weight: bold;
             color: #333;
@@ -195,66 +179,34 @@
             overflow: hidden;
         }
         
-        .review-excerpt {
-            color: #666;
+        .product-category {
+            background: #f8f9fa;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border-left: 4px solid #528B5F;
             margin-bottom: 1rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.4;
+            font-size: 0.9rem;
+            color: #666;
         }
         
-        .review-meta {
+        .product-stats {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
-            color: #666;
-            border-top: 1px solid #eee;
             padding-top: 1rem;
+            border-top: 1px solid #eee;
         }
         
-        .review-author {
+        .reviews-count {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-        
-        .author-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .review-stats {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .product-info {
-            background: #f8f9fa;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid #528B5F;
-        }
-        
-        .product-name {
+            color: #528B5F;
             font-weight: 500;
-            color: #333;
-            margin-bottom: 0.25rem;
         }
         
-        .product-category {
-            font-size: 0.8rem;
+        .view-reviews {
+            font-size: 0.9rem;
             color: #666;
         }
         
@@ -265,34 +217,105 @@
             gap: 0.5rem;
         }
         
+        .pagination nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .pagination nav div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
         .pagination a,
         .pagination span {
-            padding: 0.5rem 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0.75rem;
+            min-width: 40px;
+            height: 40px;
             border: 1px solid #ddd;
             border-radius: 5px;
             text-decoration: none;
             color: #333;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
         
         .pagination a:hover {
             background: #f8f9fa;
+            border-color: #528B5F;
+            color: #528B5F;
         }
         
-        .pagination .current {
+        .pagination span[aria-current="page"] {
             background: #528B5F;
             color: white;
             border-color: #528B5F;
         }
         
-        .no-reviews {
+        .pagination span[aria-disabled="true"] {
+            background: #f8f9fa;
+            color: #999;
+            border-color: #eee;
+            cursor: not-allowed;
+        }
+        
+        .pagination .hidden {
+            display: none;
+        }
+        
+        /* Laravel pagination specific styles */
+        .pagination nav span,
+        .pagination nav a {
+            margin: 0 2px;
+        }
+        
+        .pagination nav .flex {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .pagination nav .flex-1 {
+            flex: none;
+        }
+        
+        .pagination svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .no-products {
             text-align: center;
             padding: 3rem;
             color: #666;
         }
         
-        .no-reviews-icon {
+        .no-products-icon {
             font-size: 4rem;
             margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -313,7 +336,7 @@
     
     <div class="container">
         <div class="page-header">
-            <h1 class="page-title">レビュー一覧</h1>
+            <h1 class="page-title">商品一覧</h1>
             @auth
                 <a href="{{ route('reviews.create') }}" class="btn btn-primary">レビューを投稿</a>
             @endauth
@@ -324,7 +347,7 @@
                 <div class="form-group">
                     <label class="form-label">カテゴリ</label>
                     <select name="category" class="form-control">
-                        <option value="">すべて</option>
+                        <option value="">すべてのカテゴリ</option>
                         @foreach($categories as $bikeName => $partCategories)
                             <optgroup label="{{ $bikeName }}">
                                 @foreach($partCategories as $partCategory)
@@ -339,32 +362,9 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">評価</label>
-                    <select name="rating" class="form-control">
-                        <option value="">すべて</option>
-                        @for($i = 5; $i >= 1; $i--)
-                            <option value="{{ $i }}" {{ request('rating') == $i ? 'selected' : '' }}>
-                                {{ $i }}★以上
-                            </option>
-                        @endfor
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">並び順</label>
-                    <select name="sort" class="form-control">
-                        <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>新着順</option>
-                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>古い順</option>
-                        <option value="rating_high" {{ request('sort') == 'rating_high' ? 'selected' : '' }}>評価が高い順</option>
-                        <option value="rating_low" {{ request('sort') == 'rating_low' ? 'selected' : '' }}>評価が低い順</option>
-                        <option value="likes" {{ request('sort') == 'likes' ? 'selected' : '' }}>いいね順</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">キーワード</label>
+                    <label class="form-label">商品名で検索</label>
                     <input type="text" name="search" class="form-control" 
-                           placeholder="商品名、タイトル、内容..." 
+                           placeholder="商品名を入力..." 
                            value="{{ request('search') }}">
                 </div>
                 
@@ -374,51 +374,29 @@
             </form>
         </div>
         
-        @if($reviews->count() > 0)
-            <div class="reviews-grid">
-                @foreach($reviews as $review)
-                    <a href="{{ route('reviews.show', $review) }}" class="review-card">
-                        @if($review->images->count() > 0)
-                            <img src="{{ $review->images->first()->image_url }}" alt="レビュー画像" class="review-image">
-                        @else
-                            <div class="review-image">📷</div>
-                        @endif
+        @if($products->count() > 0)
+            <div class="products-grid">
+                @foreach($products as $product)
+                    <a href="{{ route('products.show', $product) }}" class="product-card">
+                        <div class="product-placeholder">
+                            🚴‍♂️
+                        </div>
                         
-                        <div class="review-content">
-                            <div class="product-info">
-                                <div class="product-name">{{ $review->product->name }}</div>
-                                <div class="product-category">
-                                    {{ $review->product->partCategory->bikeCategory->name }} > 
-                                    {{ $review->product->partCategory->name }}
-                                </div>
+                        <div class="product-content">
+                            <h3 class="product-name">{{ $product->name }}</h3>
+                            
+                            <div class="product-category">
+                                {{ $product->partCategory->bikeCategory->name }} > 
+                                {{ $product->partCategory->name }}
                             </div>
                             
-                            <div class="review-rating">
-                                @for($i = 1; $i <= 5; $i++)
-                                    <span class="star {{ $i <= $review->rating ? '' : 'empty' }}">★</span>
-                                @endfor
-                            </div>
-                            
-                            <h3 class="review-title">{{ $review->title }}</h3>
-                            <p class="review-excerpt">{{ Str::limit($review->content, 100) }}</p>
-                            
-                            <div class="review-meta">
-                                <div class="review-author">
-                                    @if($review->user->avatar_url)
-                                        <img src="{{ $review->user->avatar_url }}" alt="アバター" class="author-avatar">
-                                    @endif
-                                    <span>{{ $review->user->name }}</span>
+                            <div class="product-stats">
+                                <div class="reviews-count">
+                                    <span>📝</span>
+                                    <span>{{ $product->visible_reviews_count }}件のレビュー</span>
                                 </div>
-                                
-                                <div class="review-stats">
-                                    <div class="stat-item">
-                                        <span>❤️</span>
-                                        <span>{{ $review->likes_count }}</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span>📅</span>
-                                        <span>{{ $review->created_at->format('m/d') }}</span>
-                                    </div>
+                                <div class="view-reviews">
+                                    レビューを見る →
                                 </div>
                             </div>
                         </div>
@@ -427,16 +405,16 @@
             </div>
             
             <div class="pagination">
-                {{ $reviews->appends(request()->query())->links() }}
+                {{ $products->appends(request()->query())->links() }}
             </div>
         @else
-            <div class="no-reviews">
-                <div class="no-reviews-icon">📝</div>
-                <h3>レビューが見つかりませんでした</h3>
-                <p>条件を変更して再度検索してください。</p>
+            <div class="no-products">
+                <div class="no-products-icon">🔍</div>
+                <h3>商品が見つかりませんでした</h3>
+                <p>検索条件を変更してもう一度お試しください。</p>
                 @auth
                     <a href="{{ route('reviews.create') }}" class="btn btn-primary" style="margin-top: 1rem;">
-                        最初のレビューを投稿する
+                        新しい商品のレビューを投稿する
                     </a>
                 @endauth
             </div>

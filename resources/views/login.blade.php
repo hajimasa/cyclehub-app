@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #528B5F 0%, #6B8E23 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -38,12 +38,14 @@
             font-size: 1.1rem;
         }
         
-        .google-btn {
+        .login-options {
+            margin-bottom: 2rem;
+        }
+        
+        .login-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #4285f4;
-            color: white;
             padding: 1rem 2rem;
             border: none;
             border-radius: 10px;
@@ -52,6 +54,23 @@
             transition: all 0.3s ease;
             width: 100%;
             box-sizing: border-box;
+            margin-bottom: 1rem;
+        }
+        
+        .email-btn {
+            background: #528B5F;
+            color: white;
+        }
+        
+        .email-btn:hover {
+            background: #4A6741;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(82, 139, 95, 0.3);
+        }
+        
+        .google-btn {
+            background: #4285f4;
+            color: white;
         }
         
         .google-btn:hover {
@@ -60,9 +79,54 @@
             box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
         }
         
+        .login-icon,
         .google-icon {
             margin-right: 0.5rem;
             font-size: 1.2rem;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1rem 0;
+            position: relative;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e9ecef;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+        }
+        
+        .register-link {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .register-link p {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        .register-link a {
+            color: #528B5F;
+            text-decoration: none;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
         }
         
         .error {
@@ -75,9 +139,6 @@
         }
         
         .features {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #eee;
             text-align: left;
         }
         
@@ -106,10 +167,25 @@
             </div>
         @endif
         
-        <a href="{{ route('google.redirect') }}" class="google-btn">
-            <span class="google-icon">🔑</span>
-            Googleでログイン
-        </a>
+        <div class="login-options">
+            <a href="{{ route('login') }}" class="login-btn email-btn">
+                <span class="login-icon">📧</span>
+                メールアドレスでログイン
+            </a>
+            
+            <div class="divider">
+                <span>または</span>
+            </div>
+            
+            <a href="{{ route('google.redirect') }}" class="login-btn google-btn">
+                <span class="google-icon">🔑</span>
+                Googleでログイン
+            </a>
+        </div>
+        
+        <div class="register-link">
+            <p>アカウントをお持ちでない方は <a href="{{ route('register') }}">こちらから登録</a></p>
+        </div>
         
         <div class="features">
             <div class="feature">パーツレビューの投稿・閲覧</div>
